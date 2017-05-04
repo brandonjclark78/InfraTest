@@ -40,15 +40,12 @@
     name: bind-utils
     state: latest
     
-#Installing nodejs binaries per request     
-- name: install bind-utils
+#Installing wget to faciliate nodejs binaries download     
+- name: install wget
   yum:
-    name: nodejs
+    name: wget
     state: latest
  
-#Installing npm per request     
-- name: install bind-utils
-  yum:
-    name: npm
-    state: latest 
+#- name: download nodejs
+#  command: 
   
