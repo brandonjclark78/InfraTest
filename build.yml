@@ -2,6 +2,8 @@
 - hosts: all
   become: true
   roles:
-    - { role: nginx }
-    - { role: docker }
     - { role: fluentd }
+    - { role: docker }
+    - { role: nginx }
+    
+    
