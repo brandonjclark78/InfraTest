@@ -1,0 +1,1 @@
+I've stood up an Ubuntu box on an old Sempron (lol) and have a workable station now.  Testing upload to git and to also show I'm making significant progress considering I'm newish to vagrant and ansible.  Will have some more time to work on it tomorrow.  

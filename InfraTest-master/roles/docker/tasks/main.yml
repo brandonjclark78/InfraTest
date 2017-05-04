@@ -1,0 +1,40 @@
+---
+- name: Add Docker Repository
+  yum_repository:
+    name: DockerCEStable
+    description: Official Docker CE Repository
+    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://download.docker.com/linux/centos/gpg
+    
+- name: Install Docker
+  yum:
+    name: docker-ce.x86_64
+    state: present
+    
+- name: Start docker-ce
+  systemd:
+    state: started
+    daemon_reload: yes
+    name: docker
+    
+- name: Download PIP install source    
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /home/vagrant/get-pip.py
+    mode: 0777    
+
+- name: install pip
+  command: python /home/vagrant/get-pip.py
+  
+- name: install docker-py
+  command: pip install docker-py
+  
+- name: Download openresty container
+  docker_container:
+    name: openresty2
+    image: openresty/openresty
+    state: started
+    #log_driver: fluentd
+    #log_driver collecting logs from docker daemon

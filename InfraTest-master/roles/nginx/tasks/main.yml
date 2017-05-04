@@ -1,0 +1,35 @@
+---
+- name: Yum upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+    
+- name: Add OpenResty (NGINX) repository
+  yum_repository:
+    name: OpenRestyRepository
+    description: Official OpenResty Repository
+    baseurl: https://copr-be.cloud.fedoraproject.org/results/openresty/openresty/epel-7-x86_64/
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://copr-be.cloud.fedoraproject.org/results/openresty/openresty/pubkey.gpg
+    
+- name: Install OpenResty
+  yum:
+    name: openresty
+    state: present
+
+- template:
+    src: nginx.j2
+    dest: /usr/local/openresty/nginx/conf/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+        
+- name: Start OpenResty service
+  systemd:
+    state: started
+    daemon_reload: yes
+    name: openresty
+    
+
+    
