@@ -4,3 +4,4 @@
   roles:
     - { role: nginx }
     - { role: docker }
+    - { role: fluentd }

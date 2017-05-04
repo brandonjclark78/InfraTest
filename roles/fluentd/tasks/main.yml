@@ -1,0 +1,51 @@
+---
+#Installing td-agent (fluentd) per request
+#code used liberally from William Yeh @ https://github.com/William-Yeh/ansible-fluentd/blob/master/tasks/use-yum.yml
+- name: add GPG key from Treasure Data, Inc
+  command: rpm --import https://packages.treasuredata.com/GPG-KEY-td-agent
+
+
+- name: add official repository
+  copy: src=../files/td.repo dest=/etc/yum.repos.d/td.repo
+
+- name: install td-agent
+  yum: name=td-agent  update_cache=yes  state=present
+  
+- name: install td-agent
+  yum: name="td-agent-{{ tdagent_version }}*"  update_cache=yes  state=present
+  when: tdagent_version is defined
+  
+- name: install gcc and libcurlXXX for compiling plugins
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - libcurl
+    - libcurl-devel
+  
+- name: set INIT status and start
+  service: name=td-agent state=started enabled=yes
+  
+- name: set INIT status (SysV style)
+  command: /sbin/chkconfig td-agent on
+  
+#Installing netcat per request  
+- name: install netcat
+  yum:
+    name: nc
+    state: latest
+
+#Installing nslookup per request     
+- name: install bind-utils
+  yum:
+    name: bind-utils
+    state: latest
+    
+#Installing wget to faciliate nodejs binaries download     
+- name: install wget
+  yum:
+    name: wget
+    state: latest
+ 
+#- name: download nodejs
+#  command: 
+  

@@ -36,3 +36,5 @@
     name: openresty2
     image: openresty/openresty
     state: started
+    #log_driver: fluentd
+    #log_driver collecting logs from docker daemon
